@@ -3,11 +3,19 @@ Feature: Sign up
   A user
   Should be able to sign up
 
-    Scenario: User signs up with invalid data
+    Scenario: User signs up with invalid email 
       When I go to the sign up page
       And I fill in "Email" with "invalidemail"
       And I fill in "Password" with "password"
-      And I fill in "Confirm password" with ""
+      And I fill in "Confirm password" with "password"
+      And I press "Sign Up"
+      Then I should see error messages
+
+   Scenario: User signs up with non-matching password
+      When I go to the sign up page
+      And I fill in "Email" with "email@person.com"
+      And I fill in "Password" with "password"
+      And I fill in "Confirm password" with "other_password"
       And I press "Sign Up"
       Then I should see error messages
 

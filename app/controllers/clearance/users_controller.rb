@@ -11,6 +11,11 @@ class Clearance::UsersController < ApplicationController
 
   def create
     @user = ::User.new params[:user]
+    if params[:user][:confirm_password] != params[:user][:password]
+      @user.errors.add_to_base "password does not match confirmation"
+      render :template => 'users/new'
+      return
+    end
     if @user.save
       ::ClearanceMailer.deliver_confirmation @user
       flash_notice_after_create
